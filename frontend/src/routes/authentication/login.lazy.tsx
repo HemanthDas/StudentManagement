@@ -1,19 +1,28 @@
-// import { useMutation } from "@tanstack/react-query";
-import { createLazyFileRoute } from "@tanstack/react-router";
+import { useMutation } from "@tanstack/react-query";
+import { createLazyFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { LoginData } from "../../api/authApi";
+import { useAuth } from "../../hooks/useAuth";
 function Login() {
   const loginRef = useRef<HTMLDivElement>(null);
-  // const { mutate, status } = useMutation({
-  //   mutationFn: ({ email, password }: LoginData) => login({ email, password }),
-  //   onError: (error) => {
-  //     alert(error);
-  //   },
-  //   onSuccess: () => {
-  //     alert("Login successful");
-  //   },
-  // });
+  const navigate = useNavigate({ from: "/authentication/login" });
+  const { handleLogin } = useAuth();
+  const { mutate, status } = useMutation({
+    mutationFn: ({ email, password }: LoginData) =>
+      handleLogin(email, password),
+    onError: (error) => {
+      alert(error);
+    },
+    onSuccess: () => {
+      alert("Login successful");
+      navigate({ to: "/dashboard" });
+    },
+  });
   useEffect(() => {
+    if (localStorage.getItem("token")) {
+      alert("You are already logged in");
+      navigate({ to: "/dashboard", replace: true });
+    }
     document.title = "Login";
     if (loginRef.current) {
       loginRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -45,7 +54,7 @@ function Login() {
       setErrors(newErrors);
       return;
     }
-    // mutate({ email, password });
+    mutate({ email, password });
     console.log("Login");
   }
   return (
@@ -155,15 +164,6 @@ function Login() {
               >
                 {status === "pending" ? "Loading..." : "Login"}
               </button>
-
-              <div className="mt-4 flex justify-between text-sm text-gray-600">
-                <a href="/forgot-password" className="hover:underline">
-                  Forgot Password?
-                </a>
-                <a href="/authentication/register" className="hover:underline">
-                  New User?
-                </a>
-              </div>
             </form>
           </div>
         </div>

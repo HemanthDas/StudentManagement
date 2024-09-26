@@ -5,13 +5,13 @@ const {
   approveEnrollment,
   getFlaggedRecords,
   mergeRecords,
+  addOrUpdateStudent,
 } = require("../controllers/adminController");
-const { getStudentProfile } = require("../controllers/studentController");
 const router = express.Router();
 
 router.get("/dashboard", getDashboard);
 
-router.post("/student", getStudentProfile);
+router.post("/student", addOrUpdateStudent);
 
 router.get("/enrollments", getPendingEnrollments);
 

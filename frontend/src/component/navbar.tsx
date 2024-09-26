@@ -3,8 +3,8 @@ import { useAuth } from "../hooks/useAuth";
 const Navbar = () => {
   const { token, handleLogout, currentUser } = useAuth();
   return (
-    <div className="flex flex-wrap justify-between items-center h-16 bg-white px-4">
-      <Link to={"/"} className="h-full w-16">
+    <div className="flex flex-wrap justify-between items-center h-16 bg-white px-4 shadow">
+      <Link to={"/dashboard"} className="h-full w-16">
         <img
           src="/KL.png"
           alt="Logo"
@@ -15,9 +15,7 @@ const Navbar = () => {
       <div className="flex space-x-4 p-2">
         {token ? (
           <>
-            <span className="p-2">
-              Welcome, {currentUser?.fullname || "User"}
-            </span>
+            <span className="p-2">Welcome, {currentUser?.role || "User"}</span>
             <Link className="p-2" to="/user/profile">
               Profile
             </Link>
