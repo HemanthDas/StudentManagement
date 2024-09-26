@@ -1,9 +1,9 @@
 // import { useMutation } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { login, LoginData } from "../../api/authApi";
+import { LoginData } from "../../api/authApi";
 function Login() {
-  const loginRef = useRef(null);
+  const loginRef = useRef<HTMLDivElement>(null);
   // const { mutate, status } = useMutation({
   //   mutationFn: ({ email, password }: LoginData) => login({ email, password }),
   //   onError: (error) => {
